@@ -3,8 +3,6 @@ package org.skypro.skyshop.article;
 import org.skypro.skyshop.search.Searchable;
 
 public class Article implements Searchable {
-    private final String tittle;
-    private final String text;
 
     public Article(String tittle, String text) {
         this.tittle = tittle;
@@ -19,17 +17,10 @@ public class Article implements Searchable {
 
     @Override
     public String getSearchTerm() {
-        return this + " " + getTypeContent();
     }
 
     @Override
     public String getTypeContent() {
-        return "ARTICLE";
-    }
-
-    @Override
-    public String getName() {
-        return "ARTICLE";
     }
 
     @Override
