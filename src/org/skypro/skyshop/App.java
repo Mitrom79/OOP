@@ -2,6 +2,7 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.exception.BestResultNotFoundException;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
@@ -76,8 +77,53 @@ public class App {
             if(result == null) continue;
             System.out.println(result);
         }
-        System.out.println();
 
+
+        System.out.println();
+        System.out.println("Exceptions");
+        ProductBasket basketTryException = new ProductBasket();
+
+        try {
+            basketTryException.addProduct(new SimpleProduct("   ", 12));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            basketTryException.addProduct(new SimpleProduct("kkk", 0));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            basketTryException.addProduct(new DiscountedProduct("fff", 12, 120));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            basketTryException.addProduct(new DiscountedProduct("hhh", 12, -12));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            basketTryException.addProduct(new DiscountedProduct(null, 12, 120));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            System.out.println(searchEngine.getBestMatchSearchTerm("rrr"));
+        } catch (BestResultNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            System.out.println(searchEngine.getBestMatchSearchTerm("xxx"));
+        } catch (BestResultNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 }
