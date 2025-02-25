@@ -2,28 +2,41 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+
+
 public class ProductBasket {
-    private Product[] basket;
-    private int count = 0;
-    private static final int LENGTH = 5;
+    private LinkedList<Product> basket;
 
     public ProductBasket() {
-        basket = new Product[LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
-            basket[i] = null;
-        }
+        basket = new LinkedList<>();
     }
 
     public void addProduct(Product product) {
-        if(count == LENGTH) {
-            System.out.println("Невозможно добавить продукт");
-            return;
-        }
-        basket[count++] = product;
+        basket.add(product);
     }
 
+    public List removeProduct(String name) {
+        if (basket.isEmpty()) return new ArrayList<Product>();
+        ArrayList<Product> removedProducts = new ArrayList<>();
+        Iterator<Product> iterator = basket.iterator();
+        while(iterator.hasNext()) {
+            Product p = iterator.next();
+            if(p.getName().equals(name)) {
+                removedProducts.add(p);
+                iterator.remove();
+            };
+        }
+        return removedProducts;
+    }
+
+
     public int fullPrice() {
-        if (count == 0) return 0;
+        if (basket.isEmpty()) return 0;
         int fullPrice = 0;
         for (Product product : basket) {
             fullPrice += product.getPrice();
@@ -34,7 +47,7 @@ public class ProductBasket {
     public void printBasket() {
         StringBuilder basketPrint = new StringBuilder();
         for (Product product : basket) {
-            if(product == null) continue;
+
             basketPrint.append(product.getName()).append(": ").append(product.getPrice()).append("\n");
         }
         System.out.println(basketPrint);
@@ -45,7 +58,7 @@ public class ProductBasket {
     }
 
     public boolean isHasProduct(String name) {
-        if (count == 0) return false;
+        if (basket.isEmpty()) return false;
         for (Product product : basket) {
             if (product.getName().equals(name)) return true;
         }
@@ -53,7 +66,6 @@ public class ProductBasket {
     }
 
     public void deleteBasket() {
-        basket = new Product[LENGTH];
-        count = 0;
+        basket = new LinkedList<>();
     }
 }
